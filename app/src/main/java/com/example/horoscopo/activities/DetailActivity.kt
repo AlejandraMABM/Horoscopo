@@ -122,13 +122,13 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun shareLuck() {
-        if(luckResult != null) {
+        if (luckResult != null) {
             val sendIntent = Intent()
             sendIntent.action = Intent.ACTION_SEND
-            sendIntent.putExtra(Intent.EXTRA_TEXT,"LOOK TO MY LUCK TODAY: $luckResult")
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "LOOK TO MY LUCK TODAY: $luckResult")
             sendIntent.type = "text/plain"
 
-            val shareIntent = Intent.createChooser(sendIntent,null)
+            val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
         } else {
             //  decirle al usuario que espere
@@ -146,9 +146,8 @@ class DetailActivity : AppCompatActivity() {
     }
 
 
-
     fun getHoroscopeLuck() {
-        var result = "Antes de hacer la llamada"
+        // Ejecuto codigo en un gilo secundario
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -167,7 +166,7 @@ class DetailActivity : AppCompatActivity() {
                 } else {
                     luckResult = "Hubo un error en la llamada"
                 }
-            } catch (e:Exception) {
+            } catch (e: Exception) {
                 Log.e("API", e.stackTraceToString())
                 luckResult = "Hubo un error en la llamadaaaa"
             }
@@ -178,7 +177,7 @@ class DetailActivity : AppCompatActivity() {
             } */
 
             CoroutineScope(Dispatchers.Main).launch {
-                luckTextView.text = result
+                luckTextView.text = luckResult
 
             }
         }
